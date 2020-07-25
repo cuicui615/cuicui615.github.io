@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>测测你的政治主张与筱邮差相差多少</title>
+    <style>
+        body {
+            background: #fff;
+            margin: 0;
+        }
+
+        .question {
+            width: 80%;
+            min-width: 260px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            background: #ddd;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+            font-size: 14px;
+        }
+
+
+        .answer-button {
+            text-align: center;
+            color: #fff;
+            padding: 14px 10px;
+            margin: 20px 5px 0 5px;
+            border-radius: 8px;
+            user-select: none;
+        }
+
+        .back {
+            background: #500076;
+            text-align: center;
+            color: #fff;
+            padding: 14px 10px;
+            margin: 40px 5px 0 5px;
+            border-radius: 8px;
+            user-select: none;
+        }
+
+        .question-index {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        style='user-select: none; text-align: center; height:55px; line-height:55px; background: #500076; color:#FFF; margin-bottom:30px; box-shadow: 0 0 4px rgba(0, 0, 0, .7);'>
+        筱邮差测试(0.1版)</div>
+    <div class='question'>
+        <div class='question-index'></div>
+        <div class='question-text'></div>
+        <div class='question-answers'></div>
+        <div class='back' onclick='lastQuestion()'>返回上一题</div>
+    </div>
+    <script>
+        questions = [{
+                "question": "在资本主义生产关系下，绝大多数的生产资料归少数人所有，而绝大多数的居民则是无产者和半无产者，他们由于自己的经济地位而不得不出卖自己的劳动力，即受雇于资本家，并以自己的劳动为社会的上层阶级创造不劳而获的收入。",
+                "answer": [{
+                        "text": "正是这样，打倒资本主义！",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "部分同意",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "不同意",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "是又怎样，有什么不好的？",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "在资本主义的制度下，民主的法律形式是骗人的假象。如果在政治解放之后没有随之实现经济解放和独立，也就没有真正的民主。",
+                "answer": [{
+                        "text": "是的，我们要追求更多民主",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "不，西方国家已经足够民主了",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "一派胡言，我感到非常气愤",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "我不想要任何民主",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "无产阶级的社会革命将以生产资料的公有制代替私有制，有计划地组织社会生产过程来保证社会全体成员的福利和全面发展，并将消灭社会的阶级划分，解放被压迫的无产者。",
+                "answer": [{
+                        "text": "强烈同意",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "部分同意",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "反对",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "不，这都是你的福报",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "工人阶级反对资本主义剥削的斗争必然是一场政治斗争。工人阶级没有政治权利就不能进行他们的经济斗争，不能发展他们的经济组织，他们不掌握政治权力就不能实现生产资料向全体居民所有的过渡。",
+                "answer": [{
+                        "text": "太对了，正是这样",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "行吧",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "爬，我讨厌政治",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "普通人不配有政治权利",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "如果认为争取民主的斗争会使工人阶级脱离社会主义革命或者遮挡住社会主义革命，那是完全错误的。不实行完全的民主，社会主义就不能胜利，工人阶级不为民主进行全面的彻底的革命的斗争，就不能战胜资产阶级。",
+                "answer": [{
+                        "text": "说得对",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "嗯，，，",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "民主能当饭吃吗？",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "我讨厌民主，也讨厌社会主义",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "在所有拥有资本主义生产方式的国家，工人阶级的利益是相同的。随着世界交通和为世界市场的生产的扩大，任何一个国家工人的状况都越来越依赖于其它国家工人的状况，工人阶级的解放因此是所有文明国家工人平等参与的事业。",
+                "answer": [{
+                        "text": "全世界无产者联合起来",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "噢，，，",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "不同意",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "非我族类，其心必异",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "任何地方发生革命暴动，总是有一种社会要求为其背景，而腐朽的制度阻碍这种要求得到满足。",
+                "answer": [{
+                        "text": "镇压学生的人都没有好下场",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "按闹分配罢了",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "很多人被境外势力洗脑了",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "不，只是极少数人煽动叛乱",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "没有普选，没有不受限制的出版和集会自由，没有自由的意见交锋，任何公共机构的生命就会逐渐消亡，只有官僚仍是其中唯一的决定性因素。",
+                "answer": [{
+                        "text": "确实",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "可能吧，也不一定",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "根本没这回事",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "是又怎样，有什么不好的？",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "压迫其他民族的民族无法获得解放。它用来压迫其他民族的力量，终究会反过来针对它自己。",
+                "answer": [{
+                        "text": "的确，我们要扼制民族主义",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "部分同意",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "我们没有压迫哪个民族",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "我就是想压迫别的民族",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "在资本主义生产方式已经占统治地位的中国，专制官僚仍然掌握着政治统治，这种体制使工人阶级的斗争不能充分开展，使官僚和资产阶级对劳动者的各种最野蛮的剥削保持下去，使全体人民处于受人愚弄、毫无权利的境地。因此社会主义者当前的政治任务是推翻专制，代之以真正的民主共和国。",
+                "answer": [{
+                        "text": "正是这样",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "好，很有精神",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "一派胡言，我感到非常气愤",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "我就是喜欢专制",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "应该支持任何反对中国现存社会政治制度的进步运动和革命运动，同时坚决屏弃所有那些会使警察和官吏对劳动人民的监视稍微扩大或巩固的改良方案。",
+                "answer": [{
+                        "text": "对，没错",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "不，没必要",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "怕是境外势力渗透",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "爬，国家面前没有隐私",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "社会主义取得胜利以后，必须实行完全的民主，因此，不但要使各民族完全平等，而且要实现被压迫民族的自决权，也就是政治上的自由分离权。",
+                "answer": [{
+                        "text": "支持民族自决",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "保持现状就好",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "一国两制/三民主义统一中国",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "搞分裂全家biss",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "尽管政党是代表某一阶级利益的，但阶级和政党并不是一回事，同一阶级的利益可以通过不同的方式，采取多种多样的策略来代表。同一阶级利益的代表者，按其策略方法的差异性，可以分成不同政党。政党可以更换，而不改变一个阶级的统治。",
+                "answer": [{
+                        "text": "强烈同意",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "同意",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "反对",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "强烈反对",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "无产阶级专政不是一种政体，而是一种在无产阶级夺取政权的任何地方都必然会出现的状态。如果把专政作为政体来讨论，那就谈不上一个阶级的专政，只可能是一个组织的专政。",
+                "answer": [{
+                        "text": "没错，这也正是我想说的",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "噢噢，是这样",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "不同意",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "我就是喜欢专制",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "要实现无产阶级专政，就必须要建立一个以真诚的彻底的民主、普选、最广泛的自治为基础的国家，并由此产生无产阶级意识形态对大多数人口有效的文化霸权。",
+                "answer": [{
+                        "text": "是的，就是这样",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "噢，，，",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "异端邪说，不听",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "我不喜欢民主",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "军事化的，高度集中的经济，自然不同于私人资本主义的经济，但也同样远离工人阶级要从一切剥削和奴役中解放出来这一目标。",
+                "answer": [{
+                        "text": "强烈同意",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "但愿这个目标真能实现吧",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "资本主义并没有剥削",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "剥削有功，我支持剥削",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "社会主义和无产阶级专政的首要任务是剥夺大资产阶级的生产资料，把大产业纳入新的轨道，组织协作化的社会生产。",
+                "answer": [{
+                        "text": "没收个别反动企业，其它赎买",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "都应该采取赎买的方式",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "略略略",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "国家应该拥有一切",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "社会主义的另一个迫切任务是使无产阶级的思想从资产阶级的束缚下解放出来，即消除民族主义思想的影响。",
+                "answer": [{
+                        "text": "强烈同意",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "好",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "不好",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "这是叛国的行为",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "在今天的社会里，不仅应该反对对于雇佣工人的压迫和剥削，还应该反对一切类型的压迫和剥削，不论这是针对阶级，出身，肤色，民族，性别，信仰，性取向还是移民状态的。",
+                "answer": [{
+                        "text": "好，贴贴！",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "好吧",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "白左给爷爬",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "白左给爷死",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            },
+            {
+                "question": "社会主义不能通过命令来实行，也不能仅仅通过一个哪怕是很出色的社会主义政府来实行。社会主义的实现必须通过群众，通过每一个无产者。群众被资本的锁链束缚在哪里，就必须在哪里把锁链砸碎。",
+                "answer": [{
+                        "text": "Break the Chain ！！！",
+                        "color": "#1b5e20",
+                        "value": 5
+                    },
+                    {
+                        "text": "好，很有精神",
+                        "color": "#4caf50",
+                        "value": 2
+                    },
+                    {
+                        "text": "略略略",
+                        "color": "#f14440",
+                        "value": -2
+                    },
+                    {
+                        "text": "SB才关心政治",
+                        "color": "#b71c1c",
+                        "value": -5
+                    }
+                ]
+            }
+        ]
+        answers = new Array();
+        index = 0
+        m = new Array();
+
+        function updateIndex() {
+            document.getElementsByClassName('back')[0].style.display = index != 1 ? "block" : "none";
+            document.getElementsByClassName('question-index')[0].innerHTML = index.toString() + "/" + questions
+                .length.toString();
+        }
+
+        function nextQuestion(v) {
+            if (v)
+                m.push(v);
+            if (index < questions.length) {
+                document.getElementsByClassName('question-text')[0].innerHTML = questions[index].question;
+                for (let i = 0; i < document.getElementsByClassName('answer-button').length; i++) {
+                    document.getElementsByClassName('answer-button')[i].style.display = 'none';
+                }
+                for (let i = 0; i < answers[index].length; i++) {
+                    answers[index][i].style.display = 'block';
+                }
+                index++;
+                updateIndex();
+            } else {
+                var m2 = 0;
+                for (let i = 0; i < m.length; i++) {
+                    m2 += m[i];
+                }
+                window.location.href += '?m=' + m2.toString();
+            }
+        }
+
+        function lastQuestion() {
+            if (index != 0) {
+                index--;
+                m.pop();
+                document.getElementsByClassName('question-text')[0].innerHTML = questions[index - 1].question;
+                for (let i = 0; i < document.getElementsByClassName('answer-button').length; i++) {
+                    document.getElementsByClassName('answer-button')[i].style.display = 'none';
+                }
+                for (let i = 0; i < answers[index - 1].length; i++) {
+                    answers[index - 1][i].style.display = 'block';
+                }
+                updateIndex();
+                console.log(m);
+            }
+        }
+        window.onload = function () {
+            var m3 = window.location.href.split("?")[1];
+            if (m3) {
+                m3 = m3.split("=");
+                if (m3[0] == 'm') {
+                    document.getElementsByClassName('back')[0].style.display = "none";
+                    document.getElementsByClassName('question-text')[0].style.textAlign = 'center';
+                    document.getElementsByClassName('question-text')[0].style.fontSize = '30px';
+                    document.getElementsByClassName('question-text')[0].innerHTML = "分数：" + m3[1] +
+                        "<div style='font-size:14px; text-align:left;'>分享链接：<div style='word-wrap:break-word; overflow:hidden; background:#FFF; border-radius:8px; padding:20px; margin-top:10px;'>" +
+                        window.location.href +
+                        "</div><div class='back' onclick='window.location.href = \"index.html\"'>重新测试</div></div>";
+                    return;
+                }
+            }
+            for (let i = 0; i < questions.length; i++) {
+                answers.push([]);
+                for (let j = 0; j < questions[i].answer.length; j++) {
+                    answers[answers.length - 1].push(document.createElement("div"));
+                    document.getElementsByClassName('question-answers')[0].appendChild(answers[answers.length - 1][
+                        answers[answers.length - 1].length - 1
+                    ]);
+                    answers[answers.length - 1][j].innerHTML = questions[i].answer[j].text;
+                    answers[answers.length - 1][j].style.background = questions[i].answer[j].color;
+                    answers[answers.length - 1][j].style.display = 'none';
+                    answers[answers.length - 1][j].setAttribute('class', 'answer-button');
+                    answers[answers.length - 1][j].setAttribute('onclick', 'nextQuestion(' + questions[i].answer[j]
+                        .value + ')');
+                }
+            }
+            nextQuestion(0);
+        }
+    </script>
+</body>
+
+</html>
