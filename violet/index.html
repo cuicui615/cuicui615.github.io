@@ -50,7 +50,7 @@
 </head>
 
 <body>
-  <div
+    <div
         style='user-select: none; text-align: center; height:55px; line-height:55px; background: #500076; color:#FFF; margin-bottom:30px; box-shadow: 0 0 4px rgba(0, 0, 0, .7);'>
         筱邮差测试(0.1版)</div>
     <div class='question'>
@@ -540,9 +540,9 @@
                     }
                 ]
             }
-        ]
+        ];
         answers = new Array();
-        index = 0
+        index = 0;
         m = new Array();
 
         function updateIndex() {
@@ -592,7 +592,7 @@
             var m3 = window.location.href.split("?")[1];
             if (m3) {
                 m3 = m3.split("=");
-                if (m3[0] == 'm') {
+                if (m3[0] == 'm' && parseInt(m3[1])) {
                     document.getElementsByClassName('back')[0].style.display = "none";
                     document.getElementsByClassName('question-text')[0].style.textAlign = 'center';
                     document.getElementsByClassName('question-text')[0].style.fontSize = '30px';
